@@ -29,14 +29,49 @@
 // 28. Flutter CLI: The command-line interface for Flutter, allowing developers to create, build, and manage Flutter projects from the terminal.
 // 29. Flutter SDK: The software development kit that includes the Flutter framework, Dart SDK, and tools for building and deploying Flutter applications.
 // 30. Flutter Engine: The core of the Flutter framework, responsible for rendering and managing the app's UI, handling input events, and providing access to platform-specific features.
-// 31. Flutter Framework: The high-level framework built on top of the Flutter engine, providing a rich set of widgets and tools for building user interfaces.
-// 32. Flutter Packages: A collection of reusable code libraries that can be easily integrated into Flutter applications to add functionality and features.
-// 33. Flutter Plugins: A special type of package that provides access to native platform APIs, allowing Flutter apps to interact with device features like camera, GPS, and sensors.
-// 34. Flutter Widgets: The building blocks of a Flutter app, which can be combined to create complex user interfaces. Widgets can be stateful or stateless, and they can be composed to create custom widgets.
-// 35. Flutter Layout: The process of arranging widgets on the screen, which can be done using various layout widgets like Row, Column, Stack, and GridView. Flutter's layout system is flexible and allows for responsive design across different screen sizes and orientations.
-// 36. Flutter Animation: A powerful animation library that allows developers to create smooth and complex animations to enhance the user experience. Flutter provides built-in animation widgets and tools for creating custom animations.
-// 37. Flutter Testing: A robust testing framework for unit, widget, and integration tests to ensure the app's reliability and performance. Flutter provides tools for writing and running tests, as well as for mocking dependencies and verifying behavior.
-// 38. Flutter Internationalization: Support for multiple languages and locales, making it easier to create apps for a global audience. Flutter provides tools for managing translations and localizing content based on the user's locale.
+
+// import 'package:flutter/material.dart';
+// void main() {
+//   runApp(
+//     MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(title: Text('My First App')),
+//         backgroundColor: Color.fromARGB(255, 200, 71, 71),
+//         body: Text('ABHISHEK'),
+//       ),
+//     ),
+//   );
+// }
+
+// Flutter engine -> main.dart -> main() -> runApp() -> MaterialApp -> WidgetsApp -> WidgetsBinding -> Flutter engine
+// Flutter engine -> Dart VM -> Dart code -> Flutter framework -> Dart code -> Flutter engine
+// Flutter framework -> Dart code -> Flutter engine -> Skia -> Native code (C++) -> GPU -> Screen
+// Flutter engine -> Dart VM -> Dart code -> Flutter framework -> Dart code -> Flutter engine
+
+// runApp => renders the widget tree to the screen
+// MaterialApp => a root widget, provides the basic structure for a Material Design app (Parent or root wdiget of the app, it encapsulates all the widgets, wraps our whole app)
+// WidgetsApp => the base class for all Flutter apps, providing the core functionality for building widgets
+// WidgetsBinding => the glue between the Flutter framework and the Flutter engine, managing the app's lifecycle and rendering
+
+// void main() {
+//   print(add(2,6));
+//   int sum = add2(b:8, a:10);
+//   print('sum is ${sum}');
+// }
+
+// int add(int a, int b) {
+//   return a+b;
+// }
+
+// int add2({int a=0, int b=0}) {
+//   return a+b;
+// }
+
+// named arguments vs positional arguments
+// named arguments => are optional and can be passed in any order, they are enclosed in curly braces {} and are defined in the function signature
+// positional arguments => are required and must be passed in the order they are defined in the function signature, they are enclosed in parentheses ()
+// and are defined in the function signature
+// named arguments are more readable and flexible, while positional arguments are more concise and easier to use in simple cases
 
 import 'package:flutter/material.dart';
 
@@ -73,36 +108,3 @@ void main() {
     ),
   );
 }
-
-// Flutter engine -> main.dart
-// main.dart -> main() -> runApp() -> MaterialApp -> WidgetsApp -> WidgetsBinding -> Flutter engine
-// Flutter engine -> Dart VM -> Dart code -> Flutter framework -> Dart code -> Flutter engine
-// Flutter framework -> Dart code -> Flutter engine -> Skia -> Native code (C++) -> GPU -> Screen
-// Flutter engine -> Dart VM -> Dart code -> Flutter framework -> Dart code -> Flutter engine
-
-
-// runApp => renders the widget tree to the screen
-// MaterialApp => a root widget, provides the basic structure for a Material Design app (Parent or root wdiget of the app, it encapsulates all the widgets, wraps our whole app)
-// WidgetsApp => the base class for all Flutter apps, providing the core functionality for building widgets
-// WidgetsBinding => the glue between the Flutter framework and the Flutter engine, managing the app's lifecycle and rendering
-
-// void main() {
-//   print(add(2,6));
-//   int sum = add2(b:8, a:10);
-//   print('sum is ${sum}');
-// }
-
-
-// int add(int a, int b) {
-//   return a+b;
-// }
-
-// int add2({int a=0, int b=0}) {
-//   return a+b;
-// }
-
-// named arguments vs positional arguments
-// named arguments => are optional and can be passed in any order, they are enclosed in curly braces {} and are defined in the function signature
-// positional arguments => are required and must be passed in the order they are defined in the function signature, they are enclosed in parentheses ()
-// and are defined in the function signature
-// named arguments are more readable and flexible, while positional arguments are more concise and easier to use in simple cases
