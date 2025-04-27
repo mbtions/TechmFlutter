@@ -17,12 +17,12 @@ samples, guidance on mobile development, and a full API reference.
 
 ## App Screenshots
 
-![SS01](./assets/screenshots/ss01.png)
+<img src="./assets/screenshots/ss01.png" height=200>
 
-![SS02](./assets/screenshots/ss02.png)
+<img src="./assets/screenshots/ss02.png" height=200>
 
-![SS03](./assets/screenshots/ss03.png)
+<img src="./assets/screenshots/ss03.png" height=200>
 
-![SS04](./assets/screenshots/ss04.png)
+<img src="./assets/screenshots/ss04.png" height=200>
 
-![SS05](./assets/screenshots/ss05.png)
+<img src="./assets/screenshots/ss05.png" height=200>
