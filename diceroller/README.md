@@ -17,5 +17,4 @@ samples, guidance on mobile development, and a full API reference.
 
 ## App Screenshots
 
-<img src="./assets/screenshots/ss01.png" height=400> <img src="./assets/screenshots/ss02.png" height=400> <img src="./assets/screenshots/ss03.png" height=400> <br>
-<img src="./assets/screenshots/ss04.png" height=400> <img src="./assets/screenshots/ss05.png" height=400>
+<img src="./assets/screenshots/ss01.png" height=400> <img src="./assets/screenshots/ss02.png" height=400> <img src="./assets/screenshots/ss03.png" height=400> <img src="./assets/screenshots/ss04.png" height=400> <img src="./assets/screenshots/ss05.png" height=400>
