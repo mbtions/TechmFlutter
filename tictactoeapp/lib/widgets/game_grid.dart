@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tictactoeapp/constants.dart';
 
 class GameGrid extends StatefulWidget {
-  // String initialChoice = "";
-  // GameGrid(String choice, {super.key}) {
-  //   initialChoice = choice;
-  // }
-  GameGrid({super.key});
+  const GameGrid({super.key});
 
   @override
   State<GameGrid> createState() {
@@ -18,9 +14,7 @@ class GameGridState extends State<GameGrid> {
   List<String> gameState = ["", "", "", "", "", "", "", "", "", ""];
   String turnSymbol = "X";
   String gameStateText = "Turn: X";
-  // bool showReset = false;
   bool win = false;
-  String resetButtonText = "Reset Game";
   List<bool> winStatus = [
     false,
     false,
@@ -33,10 +27,11 @@ class GameGridState extends State<GameGrid> {
     false,
     false,
   ];
+  String resetButtonText = "Reset Game";
+  // bool showReset = false;
 
   onGameGridButtonClick(int index) {
     setState(() {
-      // result = checkWin();
       if (win != true) {
         if (gameState[index] == "") {
           gameState[index] = turnSymbol;
@@ -48,8 +43,8 @@ class GameGridState extends State<GameGrid> {
             resetButtonText = "New Game";
           } else if (result == "draw") {
             gameStateText = "It's a Tie";
-            // showReset = true;
             resetButtonText = "New Game";
+            // showReset = true;
           } else {
             if (turnSymbol == "X") {
               turnSymbol = "O";
@@ -57,8 +52,8 @@ class GameGridState extends State<GameGrid> {
               turnSymbol = "X";
             }
             gameStateText = 'Turn $turnSymbol';
-            // showReset = false;
             resetButtonText = "Reset Game";
+            // showReset = false;
           }
         }
       }
@@ -123,7 +118,7 @@ class GameGridState extends State<GameGrid> {
       win = false;
       turnSymbol = "X";
       gameStateText = "Turn: X";
-      resetButtonText = "New Game";
+      resetButtonText = "Reset Game";
       // showReset = false;
     });
   }
@@ -131,7 +126,7 @@ class GameGridState extends State<GameGrid> {
   resetButtonBuild() {
     return ElevatedButton(
       onPressed: onResetPress,
-      child: Text("Reset Game", style: resetButtonTextStyle),
+      child: Text(resetButtonText, style: resetButtonTextStyle),
     );
   }
 
@@ -183,9 +178,7 @@ class GameGridState extends State<GameGrid> {
             Row(children: [buildButton(4), buildButton(5), buildButton(6)]),
             Row(children: [buildButton(7), buildButton(8), buildButton(9)]),
             SizedBox(height: 20),
-            // showReset ?
             resetButtonBuild(),
-            //: SizedBox(height: 20),
           ],
         ),
       ),

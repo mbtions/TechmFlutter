@@ -8,7 +8,6 @@ const textStyle = TextStyle(
 
 const resetButtonTextStyle = TextStyle(
   fontSize: 22,
-  color: Color.fromARGB(255, 0, 0, 0),
   fontWeight: FontWeight.bold,
 );
 

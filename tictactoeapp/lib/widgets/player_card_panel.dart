@@ -47,11 +47,7 @@ class PlayerCardState extends State<PlayerCardPanel> {
           buttonText == "edit"
               ? Text(
                 playerName,
-                style: TextStyle(
-                  color: appBgColor,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               )
               : TextField(
                 style: TextStyle(color: Colors.white, fontSize: 22),
@@ -64,23 +60,14 @@ class PlayerCardState extends State<PlayerCardPanel> {
               ),
           Text(
             playerChoice,
-            style: TextStyle(
-              color: appBgColor,
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
           Container(
             margin: EdgeInsets.all(8),
             child: ElevatedButton(
               onPressed: onEditPress,
               style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(
-                  color: appBgColor,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                backgroundColor: Colors.black12,
+                textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               child: Text(buttonText, style: textStyle),
             ),
