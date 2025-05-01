@@ -26,7 +26,7 @@ class PlayerCardState extends State<PlayerCardPanel> {
     playerChoice = widget.choice;
   }
 
-  onEditPress() {
+  onEditButtonPress() {
     setState(() {
       if (buttonText == 'edit') {
         buttonText = 'save';
@@ -45,30 +45,22 @@ class PlayerCardState extends State<PlayerCardPanel> {
       child: Column(
         children: [
           buttonText == "edit"
-              ? Text(
-                playerName,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              )
+              ? Text(playerName, style: textStyle)
               : TextField(
                 style: TextStyle(color: Colors.white, fontSize: 22),
                 controller: textControler,
                 decoration: InputDecoration(
                   hintText: 'Enter name',
                   border: OutlineInputBorder(),
-                  hintStyle: TextStyle(color: Colors.white, fontSize: 22),
+                  hintStyle: nameHintStyle,
                 ),
               ),
-          Text(
-            playerChoice,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+          Text(playerChoice, style: textStyle),
           Container(
             margin: EdgeInsets.all(8),
             child: ElevatedButton(
-              onPressed: onEditPress,
-              style: ElevatedButton.styleFrom(
-                textStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+              onPressed: onEditButtonPress,
+              style: ElevatedButton.styleFrom(textStyle: textStyle),
               child: Text(buttonText, style: textStyle),
             ),
           ),

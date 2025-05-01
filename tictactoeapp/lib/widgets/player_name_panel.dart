@@ -48,9 +48,7 @@ class PlayerNamePanelState extends State<PlayerNamePanel> {
       child: Card(
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color:
-            //  Color.fromARGB(255, 28, 129, 211)
-            appBgColor,
+        color: appBgColor,
         child: Padding(
           padding: const EdgeInsets.all(2.0),
           child: Column(
@@ -62,17 +60,14 @@ class PlayerNamePanelState extends State<PlayerNamePanel> {
                   : TextField(
                     controller: textController,
                     style: TextStyle(
-                      color: Colors.white,
+                      // color: Colors.white,
+                      color: appTextColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Enter name',
-                      hintStyle: TextStyle(
-                        color: const Color.fromRGBO(20, 150, 243, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
+                      hintText: nameHintText,
+                      hintStyle: nameHintStyle,
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 1.0),
                       ),
@@ -87,8 +82,15 @@ class PlayerNamePanelState extends State<PlayerNamePanel> {
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: onEditPress,
-                style: ElevatedButton.styleFrom(textStyle: textStyle),
-                child: Text(buttonText),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                child: Text(
+                  buttonText,
+                  style: TextStyle(
+                    color: appBgColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
               ),
             ],
           ),

@@ -21,7 +21,7 @@ class PlayerPanel extends StatelessWidget {
             children: [
               PlayerNamePanel('Meenakshi', 'X'),
               Text('TIC TAC TOE', style: textStyle),
-              PlayerNamePanel('Vandana', 'O'),
+              PlayerNamePanel('Bharadwaj', 'O'),
             ],
           ),
         ),

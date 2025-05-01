@@ -8,12 +8,15 @@ void main() {
     MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("TIC-TAC-TOE APP"),
+          title: Text("TIC x TAC x TOE"),
+          backgroundColor: appBgColor,
+          shadowColor: Colors.black,
+          elevation: 6,
           centerTitle: true,
           titleTextStyle: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            color: appBgColor,
+            color: Color.fromARGB(255, 136, 195, 243),
           ),
         ),
         backgroundColor: appBgColor,

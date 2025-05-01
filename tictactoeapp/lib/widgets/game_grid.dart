@@ -51,7 +51,7 @@ class GameGridState extends State<GameGrid> {
             } else {
               turnSymbol = "X";
             }
-            gameStateText = 'Turn $turnSymbol';
+            gameStateText = 'Turn: $turnSymbol';
             resetButtonText = "Reset Game";
             // showReset = false;
           }
@@ -170,7 +170,7 @@ class GameGridState extends State<GameGrid> {
               gameStateText,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: appTextColor,
                 fontSize: 40,
               ),
             ),
