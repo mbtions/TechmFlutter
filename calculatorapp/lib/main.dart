@@ -36,6 +36,24 @@ class Calculator extends StatefulWidget {
 class _CalculatorState extends State<Calculator> {
   String _result = '';
   String _expression = '';
+  static const int MAX_LENGTH = 12;
+
+  // format output when length increases the max_length
+  String formatOutput(String result) {
+    if (result.length <= MAX_LENGTH) {
+      return result;
+    }
+
+    // Try to convert to a number (double)
+    double? number = double.tryParse(result);
+    if (number == null) {
+      // Fallback: can't parse to number, return original
+      return result;
+    }
+
+    // Convert to exponential notation with 5 digits
+    return number.toStringAsExponential(5);
+  }
 
   // function to identify when the button is pressed, and print its label
   void _onButtonPressed(String label) {
@@ -88,8 +106,8 @@ class _CalculatorState extends State<Calculator> {
           math_expressions.EvaluationType.REAL,
           contextModel,
         );
-        result = answer.toString();
-        _expression = result.toString();
+        _expression = answer.toString();
+        result = formatOutput(answer.toString());
       } catch (e) {
         result = 'Error';
       }
@@ -111,17 +129,17 @@ class _CalculatorState extends State<Calculator> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
         children: [
-          SizedBox(height: 50),
-          Center(
-            child: Text(
-              'MY CALCULATOR APP',
-              style: TextStyle(
-                fontSize: 30,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          // SizedBox(height: 50),
+          // Center(
+          //   child: Text(
+          //     'MY CALCULATOR APP',
+          //     style: TextStyle(
+          //       fontSize: 30,
+          //       color: Colors.white,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: 20),
           Row(
             children: [
@@ -144,6 +162,7 @@ class _CalculatorState extends State<Calculator> {
                   child: Text(
                     (_result == '') ? '0' : _result,
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.fade,
                   ),
                 ),
               ),
