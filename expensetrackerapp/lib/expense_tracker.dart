@@ -5,21 +5,20 @@ import 'package:expensetrackerapp/input_text_field.dart';
 import 'package:expensetrackerapp/new_expense.dart';
 import 'package:flutter/material.dart';
 
-class ExpenseTrackerApp extends StatelessWidget {
-  const ExpenseTrackerApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Expense Tracker',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: ExpenseTracker(),
-      // routes: {
-      //   '/add-expense': (context) => AddExpenseScreen(),
-      // },
-    );
-  }
-}
+// class ExpenseTrackerApp extends StatelessWidget {
+//   const ExpenseTrackerApp({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Expense Tracker',
+//       theme: ThemeData(primarySwatch: Colors.blue),
+//       home: ExpenseTracker(),
+//       // routes: {
+//       //   '/add-expense': (context) => AddExpenseScreen(),
+//       // },
+//     );
+//   }
+// }
 
 class ExpenseTracker extends StatefulWidget {
   const ExpenseTracker({Key? key}) : super(key: key);

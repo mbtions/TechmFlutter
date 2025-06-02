@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:expensetrackerapp/Model/expense.dart';
 
 final formatter = DateFormat().add_yMd();
 
@@ -15,6 +16,7 @@ class NewExpenseState extends State<NewExpense> {
   TextEditingController amountController = TextEditingController();
 
   DateTime? selectedDate = DateTime.now();
+  late final Category selectedCategory;
 
   openDatePicker() async {
     // showDatePicker(
@@ -68,7 +70,6 @@ class NewExpenseState extends State<NewExpense> {
               border: OutlineInputBorder(),
             ),
           ),
-          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(
@@ -99,30 +100,31 @@ class NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 20),
           Row(
             children: [
-              // DropdownButton<Category>
               DropdownMenu(
                 label: const Text('Category'),
                 dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: 'food', label: 'Food'),
-                  DropdownMenuEntry(value: 'utilities', label: 'Utilities'),
+                  DropdownMenuEntry(value: Category.food, label: 'Food'),
                   DropdownMenuEntry(
-                    value: 'entertainment',
+                    value: Category.utilities,
+                    label: 'Utilities',
+                  ),
+                  DropdownMenuEntry(
+                    value: Category.entertainment,
                     label: 'Entertainment',
                   ),
-                  DropdownMenuEntry(
-                    value: 'transportation',
-                    label: 'Transportation',
-                  ),
-                  DropdownMenuEntry(value: 'other', label: 'Other'),
+                  DropdownMenuEntry(value: Category.travel, label: 'Travel'),
+                  DropdownMenuEntry(value: Category.work, label: 'Work'),
+                  DropdownMenuEntry(value: Category.other, label: 'Other'),
                 ],
                 onSelected: (value) {
                   // Handle category selection
                   print('Selected category: $value');
                 },
               ),
+
               Spacer(),
               ElevatedButton(onPressed: () {}, child: const Text('Cancel')),
               const SizedBox(width: 8),
@@ -134,7 +136,8 @@ class NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-          Spacer(),
+          // Spacer(),
+          SizedBox(height: 50),
         ],
       ),
     );
