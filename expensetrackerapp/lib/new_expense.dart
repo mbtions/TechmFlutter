@@ -5,7 +5,8 @@ import 'package:expensetrackerapp/Model/expense.dart';
 final formatter = DateFormat().add_yMd();
 
 class NewExpense extends StatefulWidget {
-  NewExpense({Key? key}) : super(key: key);
+  final void Function(Expense) onAddExpense;
+  NewExpense({required this.onAddExpense});
 
   @override
   State<NewExpense> createState() => NewExpenseState();
@@ -16,24 +17,22 @@ class NewExpenseState extends State<NewExpense> {
   TextEditingController amountController = TextEditingController();
 
   DateTime? selectedDate = DateTime.now();
-  late final Category selectedCategory;
+  Category selectedCategory = Category.other;
+
+  saveNewExpense() {
+    Expense newExpense = Expense(
+      title: titleController.text,
+      amount: double.parse(amountController.text),
+      date: selectedDate!,
+      category: selectedCategory,
+    );
+    widget.onAddExpense(newExpense);
+    Navigator.of(context).pop();
+  }
 
   openDatePicker() async {
-    // showDatePicker(
-    //   context: context,
-    //   initialDate: DateTime.now(),
-    //   firstDate: DateTime(2000),
-    //   lastDate: DateTime(2100),
-    // ).then((selectedDate) {
-    //   if (selectedDate != null) {
-    //     // Handle the selected date
-    //     setState(() {
-    //       this.selectedDate = selectedDate;
-    //     });
-    //   }
-    // });
-    DateTime firstDate = DateTime(2000);
-    DateTime lastDate = DateTime(2100);
+    DateTime firstDate = DateTime(2025, 1, 1);
+    DateTime lastDate = DateTime(2025, 12, 31);
 
     selectedDate = await showDatePicker(
       context: context,
@@ -120,24 +119,33 @@ class NewExpenseState extends State<NewExpense> {
                   DropdownMenuEntry(value: Category.other, label: 'Other'),
                 ],
                 onSelected: (value) {
-                  // Handle category selection
-                  print('Selected category: $value');
+                  setState(() {
+                    selectedCategory = value!;
+                  });
                 },
               ),
-
               Spacer(),
-              ElevatedButton(onPressed: () {}, child: const Text('Cancel')),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'),
+              ),
               const SizedBox(width: 8),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  saveNewExpense();
+                  // Navigator.of(context).pop();
                 },
-                child: const Text('Add'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                child: const Text(
+                  'Save',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
-          // Spacer(),
-          SizedBox(height: 50),
+          Spacer(),
         ],
       ),
     );

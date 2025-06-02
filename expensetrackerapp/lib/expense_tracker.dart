@@ -73,7 +73,24 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
   Category selectedCategory = Category.other; // Default category
 
   void openExpenseAdderOverlay() {
-    showModalBottomSheet(context: context, builder: (context) => NewExpense());
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => NewExpense(onAddExpense: addExpense),
+    );
+  }
+
+  addExpense(Expense expense) {
+    setState(() {
+      print("New Expense: +$expense");
+      registeredExpenses.add(expense);
+      print("Registered Expenses: $registeredExpenses");
+    });
+  }
+
+  removeExpense(Expense expense) {
+    setState(() {
+      registeredExpenses.remove(expense);
+    });
   }
 
   @override
@@ -203,7 +220,12 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            Expanded(child: ExpenseList(expenses: registeredExpenses)),
+            Expanded(
+              child: ExpenseList(
+                expenses: registeredExpenses,
+                onRemoveExpense: removeExpense,
+              ),
+            ),
           ],
         ),
       ),
