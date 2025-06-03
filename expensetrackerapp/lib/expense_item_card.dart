@@ -73,26 +73,29 @@ class ExpenseItemCard extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         title: Column(
-          children: [Text(expense.title, style: TextStyle(fontSize: 16))],
+          children: [
+            Text(expense.title, style: Theme.of(context).textTheme.titleLarge),
+            // style: TextStyle(fontSize: 16),
+          ],
         ),
         leading: expense.getCategoryIcon(),
-        // drawIcon(),
-        // subtitle: Text('${expense.date.toLocal()} - $expense.category'),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '\$${expense.amount.toStringAsFixed(2)}',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade900,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
+              // style: TextStyle(
+              //   fontSize: 16,
+              //   fontWeight: FontWeight.bold,
+              //   color: Colors.blue.shade900,
+              // ),
             ),
             Text(
               // formatDateText(),
               expense.getFormattedDate(),
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+              style: Theme.of(context).textTheme.titleSmall,
+              // style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
             ),
           ],
         ),

@@ -1,122 +1,330 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:todoapp/theme/app_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'models/Task.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ToDoApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+final ThemeNotifier themeNotifier = ThemeNotifier();
 
-  // This widget is the root of your application.
+// search task and remove the task list temporarily
+// filter task based on the status of done or undone
+// shared preferences to save the task list
+
+class ToDoApp extends StatefulWidget {
+  const ToDoApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+  State<ToDoApp> createState() => _ToDoAppState();
+}
+
+class _ToDoAppState extends State<ToDoApp> {
+  SharedPreferences? prefs;
+  final TextEditingController textEditingController = TextEditingController();
+  List<Task> allTasks = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePrefs();
+  }
+
+  Future<void> _initializePrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    _loadTasks();
+  }
+
+  void _loadTasks() {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // List<String>? taskData = prefs.getStringList('tasks');
+    // setState(() {
+    //   allTasks = taskData!.cast<Task>();
+    // });
+
+    final taskData = prefs?.getStringList('tasks');
+    if (taskData != null) {
+      setState(() {
+        allTasks =
+            taskData.map((taskString) {
+              return Task.fromJson(jsonDecode(taskString));
+            }).toList();
+      });
+    }
+
+    // List<String>? taskData = prefs.getStringList('tasks');
+    // if (taskData != null) {
+    //   setState(() {
+    //     allTasks =
+    //         taskData
+    //             .map(
+    //               (taskString) => Task.fromJson(
+    //                 Map<String, dynamic>.from(jsonDecode(taskString)),
+    //               ),
+    //             )
+    //             .toList();
+    //   });
+    // }
+  }
+
+  Future<void> _saveTask() async {
+    await prefs?.setStringList(
+      'tasks',
+      allTasks.map((task) => jsonEncode(task.toJson())).toList(),
     );
+    // prefs.setStringList('tasks', allTasks.cast<String>());
+    // prefs.setStringList(
+    //   'tasks',
+    //   allTasks.map((task) => jsonEncode(task.toJson())).toList(),
+    // );
+    // print(prefs);
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void onAddTaskButtonPressed() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      allTasks.add(Task(title: textEditingController.text));
+      textEditingController.clear();
+      // print(allTasks);
     });
+    _saveTask();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+  void onDeleteTaskButtonPressed(int index) {
+    setState(() {
+      allTasks.removeAt(index);
+    });
+    _saveTask();
+  }
+
+  void onDeleteAllTasksButton() {
+    setState(() {
+      allTasks.clear();
+    });
+    prefs?.remove('tasks');
+  }
+
+  void onEditTaskButtonPressed(int index) {
+    setState(() {
+      allTasks[index].updateTitle(textEditingController.text);
+      textEditingController.clear();
+    });
+    _saveTask();
+  }
+
+  void longPressCallback(int index) {
+    onDeleteTaskButtonPressed(index);
+  }
+
+  void taskChecked(int index) {
+    setState(() {
+      allTasks[index].toggleDone();
+    });
+    _saveTask();
+  }
+
+  Widget taskCard(int index) {
+    final task = allTasks[index];
+
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Color.fromARGB(255, 3, 25, 86),
+      // Color.fromARGB(243, 27, 127, 227),
+      // child: Container(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Checkbox(
+              // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              // visualDensity: VisualDensity.compact,
+              splashRadius: 40,
+              shape: const CircleBorder(side: BorderSide(color: Colors.white)),
+              checkColor: Colors.white70,
+              activeColor: Color.fromARGB(255, 234, 5, 255),
+              // Color.fromARGB(255, 70, 90, 161),
+              side: const BorderSide(color: Colors.white70, width: 2),
+              value: task.isDone,
+              // onChanged: (bool? value) {
+              //   setState(() {
+              //     allTasks[index].isDone = !allTasks[index].isDone;
+              //   });
+              // },
+              onChanged: (_) => taskChecked(index),
+            ),
+            Expanded(
+              // child: Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              child: Text(
+                task.title,
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  decoration: task.isDone ? TextDecoration.lineThrough : null,
+                  decorationColor: Color.fromARGB(255, 234, 5, 255),
+                  decorationThickness: 2,
+                  decorationStyle: TextDecorationStyle.solid,
+                ),
+              ),
+              // ),
+            ),
+            IconButton(
+              color: Colors.white,
+              onPressed: () => {onDeleteTaskButtonPressed(index)},
+              icon: Icon(Icons.delete),
+            ),
+            IconButton(
+              color: Colors.white,
+              onPressed: () => onEditTaskButtonPressed(index),
+              icon: const Icon(Icons.edit),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: themeNotifier,
+      builder: (context, _) {
+        return MaterialApp(
+          title: 'To Do App',
+          theme: themeNotifier.currentTheme,
+          home: Scaffold(
+            appBar: AppBar(
+              centerTitle: true,
+              title: Text(
+                'TO DO APP',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              actions: [
+                // Switch(
+                //   value: themeNotifier.isDarkMode,
+                //   onChanged: (_) => themeNotifier.toggleTheme(),
+                // ),
+                IconButton(
+                  icon: Icon(
+                    themeNotifier.isDarkMode
+                        ? Icons.nightlight_round
+                        : Icons.wb_sunny,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => setState(() => themeNotifier.toggleTheme()),
+                ),
+              ],
+              backgroundColor: Color.fromARGB(255, 3, 25, 86),
+              // Color.fromARGB(243, 27, 127, 227),
+            ),
+            body:
+            // Container(
+            Padding(
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     colors: [
+              //       Color.fromARGB(255, 52, 79, 161),
+              //       Color.fromARGB(243, 27, 127, 227),
+              //     ],
+              //     begin: Alignment.topLeft,
+              //     end: Alignment.bottomRight,
+              //   ),
+              // ),
+              padding: EdgeInsets.all(8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: allTasks.length,
+                      itemBuilder: (context, index) => taskCard(index),
+                    ),
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child:
+                  Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    color: Color.fromARGB(255, 3, 25, 86),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextField(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                hintText: 'Type your task here...',
+                                hintStyle: TextStyle(
+                                  color: Colors.blue.shade100,
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.white,
+                                    width: 2,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.blue.shade400,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              controller: textEditingController,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(255, 234, 5, 255),
+                              // Colors.white,
+                              padding: EdgeInsets.all(10),
+                              shape: const CircleBorder(),
+                            ),
+                            onPressed: () => {onAddTaskButtonPressed()},
+                            child: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 30,
+                              // Color.fromARGB(255, 3, 25, 86),
+                              // Color.fromARGB(255, 234, 5, 255),
+                            ),
+                            // child: Text(
+                            //   "+",
+                            //   style: TextStyle(
+                            //     color: Color.fromARGB(243, 27, 127, 227),
+                            //     fontSize: 25,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
+                            // ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

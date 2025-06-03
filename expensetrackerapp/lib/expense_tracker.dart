@@ -81,9 +81,18 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
 
   addExpense(Expense expense) {
     setState(() {
-      print("New Expense: +$expense");
       registeredExpenses.add(expense);
-      print("Registered Expenses: $registeredExpenses");
+
+      //  This is the optimized to use a snackbar, why? (reason)
+      // and what is the other way which is not considered optimized => The one discussed in the documentation
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("New expense added"),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 3),
+          elevation: 6,
+        ),
+      );
     });
   }
 
@@ -91,6 +100,24 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
     setState(() {
       registeredExpenses.remove(expense);
     });
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Expense deleted'),
+        behavior: SnackBarBehavior.floating,
+        action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () {
+            setState(() {
+              registeredExpenses.add(expense);
+            });
+          },
+        ),
+        duration: Duration(seconds: 5),
+        elevation: 6,
+      ),
+    );
   }
 
   @override
