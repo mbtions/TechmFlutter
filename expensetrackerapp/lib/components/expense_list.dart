@@ -18,36 +18,12 @@ class ExpenseList extends StatelessWidget {
     return ListView.builder(
       itemCount: expenses.length, // Replace with your actual expense count
       itemBuilder: (context, index) {
-        // return Dismissible(
-        //   key: ValueKey(expenses[index]),
-        //   background: Container(
-        //     decoration: BoxDecoration(
-        //       color: Theme.of(context).colorScheme.error,
-        //       borderRadius: BorderRadius.all(Radius.circular(10)),
-        //     ),
-        //     margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //       children: [
-        //         Icon(Icons.delete, color: Colors.white, size: 30),
-        //         Text("DELETE"),
-        //         Text("DELETE"),
-        //         Icon(Icons.delete, color: Colors.white, size: 30),
-        //       ],
-        //     ),
-        //   ),
-        //   onDismissed: (direction) {
-        //     onRemoveExpense(expenses[index]);
-        //   },
-        //   child: ExpenseItemCard(expense: expenses[index]),
-        // );
         return Dismissible(
           key: ValueKey(expenses[index]),
-
           // Shown when swiping LEFT ➡️ RIGHT
           background: Container(
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.error,
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -61,7 +37,6 @@ class ExpenseList extends StatelessWidget {
               ],
             ),
           ),
-
           // Shown when swiping RIGHT ➡️ LEFT
           secondaryBackground: Container(
             decoration: BoxDecoration(
@@ -89,7 +64,6 @@ class ExpenseList extends StatelessWidget {
               onRemoveExpense(expenses[index], index);
             }
           },
-
           child: ExpenseItemCard(expense: expenses[index]),
         );
       },
