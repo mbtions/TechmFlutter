@@ -1,24 +1,10 @@
 import 'package:expensetrackerapp/Model/expense.dart';
-import 'package:expensetrackerapp/edit_expense_dialog.dart';
-import 'package:expensetrackerapp/expense_list.dart';
-import 'package:expensetrackerapp/input_text_field.dart';
+import 'package:expensetrackerapp/components/expense_bar_chart.dart';
+import 'package:expensetrackerapp/components/expense_list.dart';
+import 'package:expensetrackerapp/components/simple_bar_chart.dart';
+import 'package:expensetrackerapp/main.dart';
 import 'package:expensetrackerapp/new_expense.dart';
 import 'package:flutter/material.dart';
-
-// class ExpenseTrackerApp extends StatelessWidget {
-//   const ExpenseTrackerApp({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Expense Tracker',
-//       theme: ThemeData(primarySwatch: Colors.blue),
-//       home: ExpenseTracker(),
-//       // routes: {
-//       //   '/add-expense': (context) => AddExpenseScreen(),
-//       // },
-//     );
-//   }
-// }
 
 class ExpenseTracker extends StatefulWidget {
   const ExpenseTracker({Key? key}) : super(key: key);
@@ -96,7 +82,7 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
     });
   }
 
-  removeExpense(Expense expense) {
+  removeExpense(Expense expense, int index) {
     setState(() {
       registeredExpenses.remove(expense);
     });
@@ -110,7 +96,9 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
           label: 'UNDO',
           onPressed: () {
             setState(() {
-              registeredExpenses.add(expense);
+              // registeredExpenses.add(expense);
+              // on the same index, it inserts the expense
+              registeredExpenses.insert(index, expense);
             });
           },
         ),
@@ -122,6 +110,8 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Expense Tracker'),
@@ -130,7 +120,7 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
           IconButton(
             tooltip: 'Add Expense',
             icon: const CircleAvatar(
-              radius: 30,
+              // radius: 30,
               backgroundColor: Color.fromRGBO(187, 222, 251, 1),
               child: Icon(Icons.add, color: Colors.blue, size: 30),
             ),
@@ -138,134 +128,176 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
               openExpenseAdderOverlay();
             },
           ),
+          IconButton(
+            icon: CircleAvatar(
+              backgroundColor: Color.fromRGBO(187, 222, 251, 1),
+              child: Icon(
+                themeNotifier.isDarkMode
+                    ? Icons.nightlight_round
+                    : Icons.wb_sunny,
+                color: Colors.blue,
+              ),
+            ),
+            onPressed: () => setState(() => themeNotifier.toggleTheme()),
+          ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Weekly Expenses',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: screenWidth < 500
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      Card(
-                        color: Colors.purple.shade100,
-                        child: Container(
-                          height: 100,
-                          width: 65,
-                          child: Icon(
-                            Icons.movie,
-                            color: Colors.purple.shade700,
-                          ),
-                        ),
-                      ),
-                      // Text('Entertainement'),
-                    ],
+                  const Text(
+                    'Weekly Expenses',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Column(
-                    children: [
-                      Card(
-                        color: Colors.orange.shade100,
-                        child: Container(
-                          height: 100,
-                          width: 65,
-                          child: Icon(
-                            Icons.lightbulb,
-                            color: Colors.orange.shade700,
-                          ),
-                        ),
-                      ),
-                      // Text('Utilities'),
-                    ],
+                  // Container(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.blue.shade50,
+                  //     borderRadius: BorderRadius.circular(10.0),
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //     children: [
+                  //       Column(
+                  //         children: [
+                  //           Card(
+                  //             color: Colors.purple.shade100,
+                  //             child: Container(
+                  //               height: 100,
+                  //               width: 65,
+                  //               child: Icon(
+                  //                 Icons.movie,
+                  //                 color: Colors.purple.shade700,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // Text('Entertainement'),
+                  //         ],
+                  //       ),
+                  //       Column(
+                  //         children: [
+                  //           Card(
+                  //             color: Colors.orange.shade100,
+                  //             child: Container(
+                  //               height: 100,
+                  //               width: 65,
+                  //               child: Icon(
+                  //                 Icons.lightbulb,
+                  //                 color: Colors.orange.shade700,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // Text('Utilities'),
+                  //         ],
+                  //       ),
+                  //       Column(
+                  //         children: [
+                  //           Card(
+                  //             color: Colors.green.shade100,
+                  //             child: Container(
+                  //               height: 100,
+                  //               width: 65,
+                  //               child: Icon(
+                  //                 Icons.fastfood,
+                  //                 color: Colors.green.shade700,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // Text('Food'),
+                  //         ],
+                  //       ),
+                  //       Column(
+                  //         children: [
+                  //           Card(
+                  //             color: Colors.blue.shade100,
+                  //             child: Container(
+                  //               height: 100,
+                  //               width: 65,
+                  //               child: Icon(
+                  //                 Icons.airplanemode_active,
+                  //                 color: Colors.blue.shade700,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // Text('Travel'),
+                  //         ],
+                  //       ),
+                  //       Column(
+                  //         children: [
+                  //           Card(
+                  //             color: Colors.grey.shade100,
+                  //             child: Container(
+                  //               height: 100,
+                  //               width: 65,
+                  //               child: Icon(
+                  //                 Icons.category,
+                  //                 color: Colors.grey.shade700,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //           // Text('Other'),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  const SizedBox(height: 10),
+                  SimpleBarChart(expenses: registeredExpenses),
+                  // const SizedBox(height: 10),
+                  // ExpenseBarChart(expenses: registeredExpenses),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'All Expenses',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  Column(
-                    children: [
-                      Card(
-                        color: Colors.green.shade100,
-                        child: Container(
-                          height: 100,
-                          width: 65,
-                          child: Icon(
-                            Icons.fastfood,
-                            color: Colors.green.shade700,
-                          ),
-                        ),
-                      ),
-                      // Text('Food'),
-                    ],
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ExpenseList(
+                      expenses: registeredExpenses,
+                      onRemoveExpense: removeExpense,
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Card(
-                        color: Colors.blue.shade100,
-                        child: Container(
-                          height: 100,
-                          width: 65,
-                          child: Icon(
-                            Icons.airplanemode_active,
-                            color: Colors.blue.shade700,
-                          ),
-                        ),
-                      ),
-                      // Text('Travel'),
-                    ],
+                ],
+              )
+            : Row(
+                children: [
+                  // Expanded(
+                  //   child: const Text(
+                  //     'Weekly Expenses',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  // ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SimpleBarChart(expenses: registeredExpenses),
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Card(
-                        color: Colors.grey.shade100,
-                        child: Container(
-                          height: 100,
-                          width: 65,
-                          child: Icon(
-                            Icons.category,
-                            color: Colors.grey.shade700,
-                          ),
-                        ),
-                      ),
-                      // Text('Other'),
-                    ],
+                  const SizedBox(width: 20),
+                  // Expanded(
+                  //   child: Text(
+                  //     'All Expenses',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
+                  Expanded(
+                    child: ExpenseList(
+                      expenses: registeredExpenses,
+                      onRemoveExpense: removeExpense,
+                    ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              'All Expenses',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ExpenseList(
-                expenses: registeredExpenses,
-                onRemoveExpense: removeExpense,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // showDialog
-        },
-        backgroundColor: Colors.blue.shade100,
-        tooltip: 'Add Expense',
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Icon(Icons.add, color: Colors.blue),
       ),
     );
   }

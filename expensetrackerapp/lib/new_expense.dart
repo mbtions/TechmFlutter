@@ -20,14 +20,58 @@ class NewExpenseState extends State<NewExpense> {
   Category selectedCategory = Category.other;
 
   saveNewExpense() {
-    Expense newExpense = Expense(
-      title: titleController.text,
-      amount: double.parse(amountController.text),
-      date: selectedDate!,
-      category: selectedCategory,
-    );
-    widget.onAddExpense(newExpense);
-    Navigator.of(context).pop();
+    if (validate(titleController.text, amountController.text) != "\n") {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error: Invalid Input"),
+          content: Text(
+            validate(titleController.text.trim(), amountController.text.trim()),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+    } else {
+      Expense newExpense = Expense(
+        title: titleController.text,
+        amount: double.parse(amountController.text),
+        date: selectedDate!,
+        category: selectedCategory,
+      );
+      widget.onAddExpense(newExpense);
+      Navigator.of(context).pop();
+    }
+  }
+
+  String validate(String title, String amount) {
+    String titleErrorText = "", amountErrorText = "";
+    double doubleAmount;
+    if (title == null || title.isEmpty) {
+      titleErrorText = "Enter a Title";
+    }
+
+    if (amount.isEmpty) {
+      amountErrorText = "Enter an amount";
+    } else {
+      try {
+        doubleAmount = double.parse(amount);
+        if (doubleAmount.isNegative) {
+          amountErrorText = "Enter a positive amount";
+        }
+      } catch (error) {
+        amountErrorText = "Enter a valid amount";
+      }
+    }
+    //   amountErrorText = "Enter a valid amount";
+    // } else if (double.parse(amount).isNegative) {
+    //   amountErrorText = "Enter positive amount";
+    // }
+    return "$titleErrorText\n$amountErrorText";
   }
 
   openDatePicker() async {
@@ -51,102 +95,241 @@ class NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = LayoutBuilder(builder: );
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'Add New Expense',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            maxLength: 50,
-            controller: titleController,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: amountController,
-                  keyboardType: TextInputType.number,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          print(constraints.maxWidth);
+          if (constraints.maxWidth < 500) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Add New Expense',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  maxLength: 50,
+                  controller: titleController,
                   decoration: const InputDecoration(
-                    prefixText: '\$',
-                    labelText: 'Amount',
+                    labelText: 'Title',
                     border: OutlineInputBorder(),
                   ),
                 ),
-              ),
-              Spacer(),
-              Expanded(
-                child: Row(
+                Row(
                   children: [
-                    Text(getFormattedDate(selectedDate)),
-                    IconButton(
-                      icon: const Icon(Icons.calendar_today),
-                      onPressed: () {
-                        // Implement date picker logic here
-                        openDatePicker();
-                      },
+                    Expanded(
+                      child: TextField(
+                        controller: amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          prefixText: '\$',
+                          labelText: 'Amount',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    Spacer(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(getFormattedDate(selectedDate)),
+                          IconButton(
+                            icon: const Icon(Icons.calendar_today),
+                            onPressed: () {
+                              // Implement date picker logic here
+                              openDatePicker();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              DropdownMenu(
-                label: const Text('Category'),
-                dropdownMenuEntries: const [
-                  DropdownMenuEntry(value: Category.food, label: 'Food'),
-                  DropdownMenuEntry(
-                    value: Category.utilities,
-                    label: 'Utilities',
-                  ),
-                  DropdownMenuEntry(
-                    value: Category.entertainment,
-                    label: 'Entertainment',
-                  ),
-                  DropdownMenuEntry(value: Category.travel, label: 'Travel'),
-                  DropdownMenuEntry(value: Category.work, label: 'Work'),
-                  DropdownMenuEntry(value: Category.other, label: 'Other'),
-                ],
-                onSelected: (value) {
-                  setState(() {
-                    selectedCategory = value!;
-                  });
-                },
-              ),
-              Spacer(),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
-              ),
-              const SizedBox(width: 8),
-              ElevatedButton(
-                onPressed: () {
-                  saveNewExpense();
-                  // Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                child: const Text(
-                  'Save',
-                  style: TextStyle(color: Colors.white),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    DropdownMenu(
+                      label: const Text('Category'),
+                      dropdownMenuEntries: const [
+                        DropdownMenuEntry(value: Category.food, label: 'Food'),
+                        DropdownMenuEntry(
+                          value: Category.utilities,
+                          label: 'Utilities',
+                        ),
+                        DropdownMenuEntry(
+                          value: Category.entertainment,
+                          label: 'Entertainment',
+                        ),
+                        DropdownMenuEntry(
+                          value: Category.travel,
+                          label: 'Travel',
+                        ),
+                        DropdownMenuEntry(value: Category.work, label: 'Work'),
+                        DropdownMenuEntry(
+                          value: Category.other,
+                          label: 'Other',
+                        ),
+                      ],
+                      onSelected: (value) {
+                        setState(() {
+                          selectedCategory = value!;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 12),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        saveNewExpense();
+                        // Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Spacer(),
-        ],
+                // Spacer(),
+              ],
+            );
+            // );
+          } else {
+            // Padding(
+            //   padding: const EdgeInsets.all(16.0),
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      'Add New Expense',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () {
+                        saveNewExpense();
+                        // Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                      ),
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                // Row(
+                //   children: [
+                TextField(
+                  maxLength: 50,
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: 'Title',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                // ],
+                // ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: amountController,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          prefixText: '\$',
+                          labelText: 'Amount',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: DropdownMenu(
+                        label: const Text('Category'),
+                        dropdownMenuEntries: const [
+                          DropdownMenuEntry(
+                            value: Category.food,
+                            label: 'Food',
+                          ),
+                          DropdownMenuEntry(
+                            value: Category.utilities,
+                            label: 'Utilities',
+                          ),
+                          DropdownMenuEntry(
+                            value: Category.entertainment,
+                            label: 'Entertainment',
+                          ),
+                          DropdownMenuEntry(
+                            value: Category.travel,
+                            label: 'Travel',
+                          ),
+                          DropdownMenuEntry(
+                            value: Category.work,
+                            label: 'Work',
+                          ),
+                          DropdownMenuEntry(
+                            value: Category.other,
+                            label: 'Other',
+                          ),
+                        ],
+                        onSelected: (value) {
+                          setState(() {
+                            selectedCategory = value!;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    // Spacer(),
+                    Row(
+                      children: [
+                        Text(getFormattedDate(selectedDate)),
+                        IconButton(
+                          icon: const Icon(Icons.calendar_today),
+                          onPressed: () {
+                            // Implement date picker logic here
+                            openDatePicker();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Spacer(),
+              ],
+            );
+          }
+        },
       ),
     );
   }
