@@ -74,8 +74,11 @@ class ExpenseItemCard extends StatelessWidget {
       child: ListTile(
         title: Column(
           children: [
-            Text(expense.title, style: Theme.of(context).textTheme.titleLarge),
-            // style: TextStyle(fontSize: 16),
+            Text(
+              expense.title,
+              // style: Theme.of(context).textTheme.titleLarge
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
           ],
         ),
         leading: expense.getCategoryIcon(),
@@ -84,18 +87,17 @@ class ExpenseItemCard extends StatelessWidget {
           children: [
             Text(
               '\$${expense.amount.toStringAsFixed(2)}',
-              style: Theme.of(context).textTheme.titleMedium,
-              // style: TextStyle(
-              //   fontSize: 16,
-              //   fontWeight: FontWeight.bold,
-              //   color: Colors.blue.shade900,
-              // ),
+              // style: Theme.of(context).textTheme.titleMedium,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue.shade900,
+              ),
             ),
             Text(
-              // formatDateText(),
               expense.getFormattedDate(),
-              style: Theme.of(context).textTheme.titleSmall,
-              // style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+              // style: Theme.of(context).textTheme.titleSmall,
+              style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
             ),
           ],
         ),

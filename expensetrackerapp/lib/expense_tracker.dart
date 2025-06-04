@@ -68,7 +68,6 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
   addExpense(Expense expense) {
     setState(() {
       registeredExpenses.add(expense);
-
       //  This is the optimized to use a snackbar, why? (reason)
       // and what is the other way which is not considered optimized => The one discussed in the documentation
       ScaffoldMessenger.of(context).showSnackBar(
@@ -245,9 +244,9 @@ class ExpenseTrackerState extends State<ExpenseTracker> {
                   //   ),
                   // ),
                   const SizedBox(height: 10),
-                  SimpleBarChart(expenses: registeredExpenses),
+                  // SimpleBarChart(expenses: registeredExpenses),
                   // const SizedBox(height: 10),
-                  // ExpenseBarChart(expenses: registeredExpenses),
+                  ExpenseBarChart(expenses: registeredExpenses),
                   const SizedBox(height: 20),
                   const Text(
                     'All Expenses',

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ExpenseBarChart extends StatelessWidget {
   final List<Expense> expenses;
 
-  ExpenseBarChart({required this.expenses});
+  const ExpenseBarChart({super.key, required this.expenses});
 
   Map<Category, double> getCategoryTotals() {
     final totals = <Category, double>{};
