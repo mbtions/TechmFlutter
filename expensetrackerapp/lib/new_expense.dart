@@ -95,12 +95,10 @@ class NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    // final screenWidth = LayoutBuilder(builder: );
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          print(constraints.maxWidth);
           if (constraints.maxWidth < 500) {
             return Column(
               mainAxisSize: MainAxisSize.min,
@@ -190,7 +188,6 @@ class NewExpenseState extends State<NewExpense> {
                     ElevatedButton(
                       onPressed: () {
                         saveNewExpense();
-                        // Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -202,13 +199,11 @@ class NewExpenseState extends State<NewExpense> {
                     ),
                   ],
                 ),
-                // Spacer(),
+                Spacer(),
               ],
             );
             // );
           } else {
-            // Padding(
-            //   padding: const EdgeInsets.all(16.0),
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -233,7 +228,6 @@ class NewExpenseState extends State<NewExpense> {
                     ElevatedButton(
                       onPressed: () {
                         saveNewExpense();
-                        // Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -246,8 +240,6 @@ class NewExpenseState extends State<NewExpense> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                // Row(
-                //   children: [
                 TextField(
                   maxLength: 50,
                   controller: titleController,
@@ -256,8 +248,6 @@ class NewExpenseState extends State<NewExpense> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                // ],
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -310,14 +300,12 @@ class NewExpenseState extends State<NewExpense> {
                       ),
                     ),
                     const SizedBox(width: 16),
-                    // Spacer(),
                     Row(
                       children: [
                         Text(getFormattedDate(selectedDate)),
                         IconButton(
                           icon: const Icon(Icons.calendar_today),
                           onPressed: () {
-                            // Implement date picker logic here
                             openDatePicker();
                           },
                         ),
