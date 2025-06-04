@@ -67,10 +67,6 @@ class NewExpenseState extends State<NewExpense> {
         amountErrorText = "Enter a valid amount";
       }
     }
-    //   amountErrorText = "Enter a valid amount";
-    // } else if (double.parse(amount).isNegative) {
-    //   amountErrorText = "Enter positive amount";
-    // }
     return "$titleErrorText\n$amountErrorText";
   }
 
