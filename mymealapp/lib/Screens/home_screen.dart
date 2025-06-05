@@ -4,7 +4,6 @@ import 'package:mymealapp/widgets/CategoryGridItem.dart';
 import 'package:mymealapp/model/category.dart';
 
 class HomeScreen extends StatelessWidget {
-  // List<FoodCategory> categories = availableCategories;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

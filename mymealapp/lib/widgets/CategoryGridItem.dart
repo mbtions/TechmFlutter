@@ -2,9 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:mymealapp/model/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  CategoryGridItem({required this.category});
+  const CategoryGridItem({super.key, required this.category});
 
   final Category category;
+
+  onGridItemClick(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Work In Progress'),
+        content: Text('Screens are yet to be defined!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text('OKAY'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +33,14 @@ class CategoryGridItem extends StatelessWidget {
           end: Alignment.bottomRight,
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          category.title,
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+      child: GestureDetector(
+        onTap: () => onGridItemClick(context),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            category.title,
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
         ),
       ),
     );
