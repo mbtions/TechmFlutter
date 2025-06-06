@@ -48,6 +48,22 @@ class NewExpenseState extends State<NewExpense> {
     }
   }
 
+  // showAdaptiveDialog<String>(
+  //       context: context,
+  //       builder: (BuildContext context) => AlertDialog.adaptive(
+  //         title: Text("Error: Invalid Input"),
+  //         content: Text(
+  //           validate(titleController.text.trim(), amountController.text.trim()),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             onPressed: () => Navigator.of(context).pop(),
+  //             child: Text("OKAY"),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+
   String validate(String title, String amount) {
     String titleErrorText = "", amountErrorText = "";
     double doubleAmount;
