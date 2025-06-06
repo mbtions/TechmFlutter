@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class Category {
   Category({required this.id, required this.title, required this.color});
