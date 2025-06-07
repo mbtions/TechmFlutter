@@ -23,7 +23,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ### Second Screen: Pick Your Meal
 
-<img src="./assets/screenshots/ss02.png" height=400> <img src="./assets/screenshots/ss05.png" height=400> <img src="./assets/screenshots/ss06.png"> <img src="./assets/screenshots/ss07.png" height=400> <img src="./assets/screenshots/ss08.png" height=400> <img src="./assets/screenshots/ss12.png" height=400> <img src="./assets/screenshots/ss13.png" height=400> <img src="./assets/screenshots/ss14.png" height=400> <img src="./assets/screenshots/ss15.png" height=400>
+<img src="./assets/screenshots/ss02.png" height=400> <img src="./assets/screenshots/ss05.png" height=400> <img src="./assets/screenshots/ss06.png" height=400> <img src="./assets/screenshots/ss07.png" height=400> <img src="./assets/screenshots/ss08.png" height=400> <img src="./assets/screenshots/ss12.png" height=400> <img src="./assets/screenshots/ss13.png" height=400> <img src="./assets/screenshots/ss14.png" height=400> <img src="./assets/screenshots/ss15.png" height=400>
 
 ### Third Screen: About Meal Screen
 
