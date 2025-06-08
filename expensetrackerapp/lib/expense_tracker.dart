@@ -7,7 +7,7 @@ import 'package:expensetrackerapp/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseTracker extends StatefulWidget {
-  const ExpenseTracker({Key? key}) : super(key: key);
+  const ExpenseTracker({super.key});
 
   @override
   ExpenseTrackerState createState() => ExpenseTrackerState();

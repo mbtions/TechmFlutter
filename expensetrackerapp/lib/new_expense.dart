@@ -6,7 +6,7 @@ final formatter = DateFormat().add_yMd();
 
 class NewExpense extends StatefulWidget {
   final void Function(Expense) onAddExpense;
-  NewExpense({required this.onAddExpense});
+  const NewExpense({super.key, required this.onAddExpense});
 
   @override
   State<NewExpense> createState() => NewExpenseState();
@@ -67,7 +67,7 @@ class NewExpenseState extends State<NewExpense> {
   String validate(String title, String amount) {
     String titleErrorText = "", amountErrorText = "";
     double doubleAmount;
-    if (title == null || title.isEmpty) {
+    if (title.isEmpty) {
       titleErrorText = "Enter a Title";
     }
 
@@ -90,14 +90,14 @@ class NewExpenseState extends State<NewExpense> {
     DateTime firstDate = DateTime(2025, 1, 1);
     DateTime lastDate = DateTime(2025, 12, 31);
 
-    selectedDate = await showDatePicker(
+    final dateSelected = await showDatePicker(
       context: context,
       firstDate: firstDate,
       lastDate: lastDate,
     );
 
     setState(() {
-      this.selectedDate = selectedDate!;
+      selectedDate = dateSelected!;
     });
   }
 

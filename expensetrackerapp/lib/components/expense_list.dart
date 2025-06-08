@@ -3,12 +3,12 @@ import 'package:expensetrackerapp/expense_item_card.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseList extends StatelessWidget {
-  List<Expense> expenses;
+  final List<Expense> expenses;
   final void Function(Expense, int) onRemoveExpense;
 
-  ExpenseList({
-    required this.expenses,
+  const ExpenseList({
     super.key,
+    required this.expenses,
     required this.onRemoveExpense,
   });
 

@@ -5,7 +5,7 @@ import 'package:expensetrackerapp/Model/expense.dart';
 class SimpleBarChart extends StatelessWidget {
   final List<Expense> expenses;
 
-  SimpleBarChart({required this.expenses});
+  const SimpleBarChart({super.key, required this.expenses});
 
   Map<Category, double> getCategoryTotals() {
     Map<Category, double> totals = {
