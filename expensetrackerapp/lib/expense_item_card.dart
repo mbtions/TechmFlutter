@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ExpenseItemCard extends StatelessWidget {
   final Expense expense;
 
-  const ExpenseItemCard({Key? key, required this.expense}) : super(key: key);
+  const ExpenseItemCard({super.key, required this.expense});
 
   // Color getCategoryColor() {
   //   switch (expense.category) {
