@@ -31,7 +31,24 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-  deleteBook() {}
+  deleteBook(int id) async {
+    bool status = await BookRemoteServices().deleteBook(id);
+    if (status) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Book deleted successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to delete the book!'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +57,8 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
         title: Text(book.title ?? 'Book Details'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: () => _shareBook(context),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      EditBookScreen(bookId: book.id!, book: book),
-                ),
-              );
-            },
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.delete),
+            onPressed: () => deleteBook(book.id!),
           ),
         ],
       ),
@@ -99,8 +105,12 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addToFavorites(context),
-        child: const Icon(Icons.favorite_border),
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => EditBookScreen(bookId: book.id!, book: book),
+          ),
+        ),
+        child: const Icon(Icons.edit),
       ),
     );
   }
