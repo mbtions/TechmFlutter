@@ -37,20 +37,25 @@ class BooksHomeScreenState extends State<BooksHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Books')),
-      body: Visibility(
-        visible: isLoaded,
-        replacement: Center(child: CircularProgressIndicator()),
-        child: ListView.builder(
-          itemCount: allBooks!.length,
-          itemBuilder: (context, index) => InkWell(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    BookDetailsScreen(bookId: allBooks![index].id!),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getData();
+        },
+        child: Visibility(
+          visible: isLoaded,
+          replacement: Center(child: CircularProgressIndicator()),
+          child: ListView.builder(
+            itemCount: allBooks!.length,
+            itemBuilder: (context, index) => InkWell(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      BookDetailsScreen(bookId: allBooks![index].id!),
+                ),
               ),
+              child: BookCard(book: allBooks![index]),
             ),
-            child: BookCard(book: allBooks![index]),
           ),
         ),
       ),

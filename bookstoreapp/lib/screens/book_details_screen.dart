@@ -19,11 +19,11 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    getBookById();
+    getBookById(widget.bookId);
   }
 
-  getBookById() async {
-    book = (await BookRemoteServices().getBookById(widget.bookId))!;
+  getBookById(int id) async {
+    book = (await BookRemoteServices().getBookById(id))!;
     if (book != null) {
       setState(() {
         isLoaded = true;
@@ -62,44 +62,49 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
           ),
         ],
       ),
-      body: Visibility(
-        visible: isLoaded,
-        replacement: Center(child: const CircularProgressIndicator()),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Book cover and basic info row
-                _buildBookHeader(context),
-                const SizedBox(height: 24),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await getBookById(widget.bookId);
+        },
+        child: Visibility(
+          visible: isLoaded,
+          replacement: Center(child: const CircularProgressIndicator()),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Book cover and basic info row
+                  _buildBookHeader(context),
+                  const SizedBox(height: 24),
 
-                // About section
-                _buildSectionTitle('About the Book'),
-                Text(
-                  book.desc ?? 'No description available',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 16),
+                  // About section
+                  _buildSectionTitle('About the Book'),
+                  Text(
+                    book.desc ?? 'No description available',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 16),
 
-                // Details section
-                _buildSectionTitle('Details'),
-                _buildDetailRow('Author', book.author),
-                _buildDetailRow('Publisher', book.publisher),
-                _buildDetailRow('Published', book.year.toString()),
-                _buildDetailRow('Pages', book.pages.toString()),
-                _buildDetailRow('Language', book.language),
-                _buildDetailRow('Genre', book.genre),
-                const SizedBox(height: 16),
+                  // Details section
+                  _buildSectionTitle('Details'),
+                  _buildDetailRow('Author', book.author),
+                  _buildDetailRow('Publisher', book.publisher),
+                  _buildDetailRow('Published', book.year.toString()),
+                  _buildDetailRow('Pages', book.pages.toString()),
+                  _buildDetailRow('Language', book.language),
+                  _buildDetailRow('Genre', book.genre),
+                  const SizedBox(height: 16),
 
-                // Rating section
-                _buildRatingSection(context),
-                const SizedBox(height: 24),
+                  // Rating section
+                  _buildRatingSection(context),
+                  const SizedBox(height: 24),
 
-                // Added by section
-                _buildAddedBySection(),
-              ],
+                  // Added by section
+                  _buildAddedBySection(),
+                ],
+              ),
             ),
           ),
         ),

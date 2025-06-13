@@ -50,7 +50,6 @@ class BookRemoteServices {
 
   Future<bool> addBook(Book book) async {
     var client = http.Client();
-    print('Client: $client');
     // var url = Uri.parse("http://10.0.2.2:3000/addbook");
 
     var url = Uri.parse('http://64.227.179.213:3000/addbook');
@@ -60,8 +59,6 @@ class BookRemoteServices {
       body: json.encode(book.toJson()),
     );
 
-    print("Status Code: ${response.statusCode}");
-    print("Response Body: ${response.body}");
     if (response.statusCode == 201) {
       return true;
     }
