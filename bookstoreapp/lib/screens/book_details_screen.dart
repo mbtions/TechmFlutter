@@ -106,9 +106,7 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => EditBookScreen(bookId: book.id!, book: book),
-          ),
+          MaterialPageRoute(builder: (context) => EditBookScreen(book: book)),
         ),
         child: const Icon(Icons.edit),
       ),

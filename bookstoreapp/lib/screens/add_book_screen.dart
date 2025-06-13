@@ -126,9 +126,10 @@ class _AddBookScreenState extends State<AddBookScreen> {
   final _publisherController = TextEditingController();
   final _ratingController = TextEditingController();
 
-  void _submitBook() {
+  void _submitBook() async {
     if (_formKey.currentState!.validate()) {
-      Book book = Book(
+      print("Book form validated...");
+      Book newBook = Book(
         author: _authorController.text.trim(),
         addedBy: _addedByController.text.trim(),
         title: _titleController.text.trim(),
@@ -143,29 +144,46 @@ class _AddBookScreenState extends State<AddBookScreen> {
       );
 
       // Send to server via POST request
-      addBook(book);
+      bool status = await BookRemoteServices().addBook(newBook);
+      print("Status received: $status");
+      if (status) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Book added successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to add book!'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+      Navigator.pop(context);
     }
   }
 
-  addBook(Book book) async {
-    bool status = await BookRemoteServices().addBook(book);
-    if (status) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Book added successfully!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.of(context).pop();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to add book!'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
+  // addBook(Book book) async {
+  //   bool status = await BookRemoteServices().addBook(book);
+  //   if (status) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Book added successfully!'),
+  //         backgroundColor: Colors.green,
+  //       ),
+  //     );
+  //     Navigator.of(context).pop();
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('Failed to add book!'),
+  //         backgroundColor: Colors.red,
+  //       ),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
