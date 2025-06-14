@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:tictactoeapp/constants.dart';
 
 class PlayerCardPanel extends StatefulWidget {
-  String name = "", choice = "";
+  late final String name, choice;
   PlayerCardPanel(String playerName, String playerChoice, {super.key}) {
     name = playerName;
     choice = playerChoice;
   }
+
   @override
-  State<StatefulWidget> createState() {
+  State<PlayerCardPanel> createState() {
     return PlayerCardState();
   }
 }
@@ -17,7 +18,7 @@ class PlayerCardState extends State<PlayerCardPanel> {
   String playerChoice = "";
   String playerName = "";
   String buttonText = "edit";
-  TextEditingController textControler = TextEditingController();
+  TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
@@ -31,7 +32,7 @@ class PlayerCardState extends State<PlayerCardPanel> {
       if (buttonText == 'edit') {
         buttonText = 'save';
       } else {
-        playerName = textControler.text;
+        playerName = textController.text;
         buttonText = 'edit';
       }
     });
@@ -48,7 +49,7 @@ class PlayerCardState extends State<PlayerCardPanel> {
               ? Text(playerName, style: textStyle)
               : TextField(
                 style: TextStyle(color: Colors.white, fontSize: 22),
-                controller: textControler,
+                controller: textController,
                 decoration: InputDecoration(
                   hintText: 'Enter name',
                   border: OutlineInputBorder(),

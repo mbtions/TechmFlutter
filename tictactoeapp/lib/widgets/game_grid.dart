@@ -165,6 +165,7 @@ class GameGridState extends State<GameGrid> {
       child: Container(
         padding: EdgeInsets.all(1),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               gameStateText,

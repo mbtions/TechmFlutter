@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 const Color appBgColor = Color.fromARGB(255, 4, 63, 152);
 const Color blueColor = Color.fromARGB(255, 28, 129, 211);
