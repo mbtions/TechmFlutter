@@ -1,28 +1,6 @@
 import 'package:bookstoreapp/model/book.dart';
 import 'package:flutter/material.dart';
 
-// class BookCard extends StatelessWidget {
-//   const BookCard({super.key, required this.book});
-
-//   final Book book;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // This widget should be used to display a single book card
-//     // You can customize it based on your book model
-//     return Card(
-//       child: ListTile(
-//         title: Text('Book Title'), // Replace with actual book title
-//         subtitle: Text('Author Name'), // Replace with actual author name
-//         onTap: () {
-//           // Navigate to Book Details Screen
-//           // Navigator.pushNamed(context, '/bookDetails');
-//         },
-//       ),
-//     );
-//   }
-// }
-
 class BookCard extends StatelessWidget {
   const BookCard({super.key, required this.book});
 
@@ -138,19 +116,3 @@ class BookCard extends StatelessWidget {
     );
   }
 }
-
-// Example usage:
-// BookCard(
-//   id: 1,
-//   author: "Paulo Coelho",
-//   addedBy: "admin",
-//   title: "The Alchemist",
-//   desc: "A journey of a shepherd...",
-//   coverPageUrl: "https://m.media-amazon.com/images/W/MEDIAX_1215821-T2/images/I/41ziEX0PJgL.SY445_SX342.jpg",
-//   year: 1988,
-//   genre: "Adventure",
-//   language: "English",
-//   pages: 208,
-//   publisher: "HarperOne",
-//   rating: 4.5,
-// )

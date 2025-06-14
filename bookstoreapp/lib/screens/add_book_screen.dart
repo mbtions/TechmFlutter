@@ -1,108 +1,8 @@
-// import 'package:flutter/material.dart';
-
-// class AddBookScreen extends StatefulWidget {
-//   const AddBookScreen({super.key});
-//   @override
-//   State<AddBookScreen> createState() {
-//     return AddBookScreenState();
-//   }
-// }
-
-// class AddBookScreenState extends State<AddBookScreen> {
-//   TextEditingController titleController = TextEditingController();
-//   TextEditingController authorController = TextEditingController();
-//   TextEditingController descriptionController = TextEditingController();
-//   TextEditingController priceController = TextEditingController();
-//   TextEditingController coverPageUrlController = TextEditingController();
-//   TextEditingController ratingController = TextEditingController();
-//   TextEditingController publisherController = TextEditingController();
-
-//   // dropdown menu for genre, language, added by,
-//   addData() {}
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Add Book')),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: titleController,
-//                 decoration: InputDecoration(labelText: 'Title'),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: authorController,
-//                 decoration: InputDecoration(labelText: 'Author'),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: descriptionController,
-//                 decoration: InputDecoration(labelText: 'Description'),
-//                 maxLines: 4,
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: priceController,
-//                 decoration: InputDecoration(labelText: 'Price'),
-//                 keyboardType: TextInputType.number,
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: coverPageUrlController,
-//                 decoration: InputDecoration(labelText: 'Cover Page URL'),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: ratingController,
-//                 decoration: InputDecoration(labelText: 'Rating'),
-//                 keyboardType: TextInputType.number,
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: TextField(
-//                 controller: publisherController,
-//                 decoration: InputDecoration(labelText: 'Publisher'),
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.all(16.0),
-//               child: ElevatedButton(
-//                 onPressed: () {
-//                   // Handle book submission logic here
-//                   // For example, you can call a service to save the book data
-//                   // and then navigate back to the previous screen.
-//                   addData();
-//                   Navigator.pop(context);
-//                 },
-//                 child: Text('Add Book'),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:bookstoreapp/model/book.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
 import 'package:flutter/material.dart';
 
+// FOR ADDING A NEW BOOK (POST REQUEST)
 class AddBookScreen extends StatefulWidget {
   const AddBookScreen({super.key});
 
@@ -128,7 +28,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
   void _submitBook() async {
     if (_formKey.currentState!.validate()) {
-      print("Book form validated...");
       Book newBook = Book(
         author: _authorController.text.trim(),
         addedBy: _addedByController.text.trim(),
@@ -145,7 +44,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
 
       // Send to server via POST request
       bool status = await BookRemoteServices().addBook(newBook);
-      print("Status received: $status");
       if (status) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -164,26 +62,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
       Navigator.pop(context);
     }
   }
-
-  // addBook(Book book) async {
-  //   bool status = await BookRemoteServices().addBook(book);
-  //   if (status) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Book added successfully!'),
-  //         backgroundColor: Colors.green,
-  //       ),
-  //     );
-  //     Navigator.of(context).pop();
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content: Text('Failed to add book!'),
-  //         backgroundColor: Colors.red,
-  //       ),
-  //     );
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {

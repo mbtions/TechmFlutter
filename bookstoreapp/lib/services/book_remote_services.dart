@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:bookstoreapp/model/book.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,9 +8,12 @@ class BookRemoteServices {
 
     var url = Uri.parse('http://64.227.179.213:3000/books');
     var response = await client.get(url);
+
     if (response.statusCode == 200) {
       return bookListfromJson(response.body);
     }
+
+    return null;
   }
 
   Future<Book?> getBookById(int id) async {
@@ -21,12 +22,13 @@ class BookRemoteServices {
 
     var url = Uri.parse('http://64.227.179.213:3000/books/$id');
     var response = await client.get(url);
+
     if (response.statusCode == 200) {
       var jsonData = response.body;
       return bookFromJson(jsonData);
-    } else {
-      return null;
     }
+
+    return null;
   }
 
   Future<bool> updateBook(Book book) async {
@@ -40,7 +42,6 @@ class BookRemoteServices {
       body: bookToJson(book),
     );
 
-    // return result status
     if (response.statusCode == 200 || response.statusCode == 204) {
       return true;
     }
@@ -53,15 +54,16 @@ class BookRemoteServices {
     // var url = Uri.parse("http://10.0.2.2:3000/addbook");
 
     var url = Uri.parse('http://64.227.179.213:3000/addbook');
-    final response = await http.post(
+    final response = await client.post(
       url,
       headers: {"Content-Type": "application/json"},
-      body: json.encode(book.toJson()),
+      body: bookToJson(book),
     );
 
     if (response.statusCode == 201) {
       return true;
     }
+
     return false;
   }
 

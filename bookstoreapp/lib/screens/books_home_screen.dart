@@ -1,12 +1,11 @@
 import 'package:bookstoreapp/model/book.dart';
 import 'package:bookstoreapp/screens/add_book_screen.dart';
 import 'package:bookstoreapp/screens/book_details_screen.dart';
-import 'package:bookstoreapp/screens/edit_book_screen.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
 import 'package:bookstoreapp/widgets/book_card.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
+// FOR DISPLAYING ALL BOOKS AFTER FETCHING (GET REQUEST)
 class BooksHomeScreen extends StatefulWidget {
   const BooksHomeScreen({super.key});
 
@@ -62,8 +61,7 @@ class BooksHomeScreenState extends State<BooksHomeScreen> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigate to Edit Book Screen
-          // Navigator.pushNamed(context, '/editBook');
+          // Navigator.pushNamed(context, '/addBook');
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const AddBookScreen()),

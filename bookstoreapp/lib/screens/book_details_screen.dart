@@ -3,6 +3,7 @@ import 'package:bookstoreapp/screens/edit_book_screen.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
 import 'package:flutter/material.dart';
 
+// FOR DISPLAYING ONE BOOK AS PER ID (GET REQUEST) WITH DELETE OPTION (DELETE REQUEST)
 class BookDetailsScreen extends StatefulWidget {
   const BookDetailsScreen({super.key, required this.bookId});
 
@@ -98,7 +99,7 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
                   const SizedBox(height: 16),
 
                   // Rating section
-                  _buildRatingSection(context),
+                  // _buildRatingSection(context),
                   const SizedBox(height: 24),
 
                   // Added by section
@@ -221,32 +222,32 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 
-  Widget _buildRatingSection(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionTitle('Rating'),
-        Row(
-          children: [
-            Icon(Icons.star, color: Colors.amber, size: 30),
-            const SizedBox(width: 8),
-            Text(
-              '${book.rating ?? 'N/A'} / 5.0',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () => _rateBook(context),
-            child: const Text('Rate this book'),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildRatingSection(BuildContext context) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       _buildSectionTitle('Rating'),
+  //       Row(
+  //         children: [
+  //           Icon(Icons.star, color: Colors.amber, size: 30),
+  //           const SizedBox(width: 8),
+  //           Text(
+  //             '${book.rating ?? 'N/A'} / 5.0',
+  //             style: Theme.of(context).textTheme.titleLarge,
+  //           ),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       SizedBox(
+  //         width: double.infinity,
+  //         child: ElevatedButton(
+  //           onPressed: () => _rateBook(context),
+  //           child: const Text('Rate this book'),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildAddedBySection() {
     return Column(
@@ -261,61 +262,61 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 
-  void _shareBook(BuildContext context) {
-    // Implement share functionality
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Sharing book...')));
-  }
+  // void _shareBook(BuildContext context) {
+  //   // Implement share functionality
+  //   ScaffoldMessenger.of(
+  //     context,
+  //   ).showSnackBar(const SnackBar(content: Text('Sharing book...')));
+  // }
 
-  void _addToFavorites(BuildContext context) {
-    // Implement favorite functionality
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Added to favorites!')));
-  }
+  // void _addToFavorites(BuildContext context) {
+  //   // Implement favorite functionality
+  //   ScaffoldMessenger.of(
+  //     context,
+  //   ).showSnackBar(const SnackBar(content: Text('Added to favorites!')));
+  // }
 
-  void _rateBook(BuildContext context) {
-    // Implement rating functionality
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Rate this book'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('How would you rate this book?'),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (index) {
-                return Icon(
-                  Icons.star,
-                  color: index < (book.rating ?? 0)
-                      ? Colors.amber
-                      : Colors.grey,
-                  size: 30,
-                );
-              }),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Thanks for rating!')),
-              );
-            },
-            child: const Text('Submit'),
-          ),
-        ],
-      ),
-    );
-  }
+  // void _rateBook(BuildContext context) {
+  //   // Implement rating functionality
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text('Rate this book'),
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           const Text('How would you rate this book?'),
+  //           const SizedBox(height: 16),
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: List.generate(5, (index) {
+  //               return Icon(
+  //                 Icons.star,
+  //                 color: index < (book.rating ?? 0)
+  //                     ? Colors.amber
+  //                     : Colors.grey,
+  //                 size: 30,
+  //               );
+  //             }),
+  //           ),
+  //         ],
+  //       ),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.pop(context),
+  //           child: const Text('Cancel'),
+  //         ),
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.pop(context);
+  //             ScaffoldMessenger.of(context).showSnackBar(
+  //               const SnackBar(content: Text('Thanks for rating!')),
+  //             );
+  //           },
+  //           child: const Text('Submit'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
