@@ -1,6 +1,9 @@
 import 'package:bookstoreapp/model/book.dart';
 import 'package:bookstoreapp/screens/edit_book_screen.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
+import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 // FOR DISPLAYING ONE BOOK AS PER ID (GET REQUEST) WITH DELETE OPTION (DELETE REQUEST)
@@ -51,12 +54,99 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
+  void _shareBook(BuildContext context) {
+    final String text =
+        '''
+        📚 *${book.title ?? 'Unknown Title'}*
+        ✍️ Author: ${book.author ?? 'Unknown Author'}
+        📖 Genre: ${book.genre ?? 'Unknown'}
+        ⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
+
+        ${book.desc ?? 'No description provided.'}
+      ''';
+
+    Share.share(text, subject: book.title ?? 'Check out this book!');
+  }
+
+  void _showShareOptions(BuildContext context) {
+    final String shareText =
+        '''
+📚 ${book.title ?? 'Unknown Title'}
+✍️ Author: ${book.author ?? 'Unknown Author'}
+📖 Genre: ${book.genre ?? 'Unknown'}
+⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
+
+${book.desc ?? 'No description provided.'}
+''';
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.call, color: Colors.green),
+              title: const Text('Share via WhatsApp'),
+              onTap: () {
+                Navigator.pop(context);
+                _shareViaWhatsApp(shareText);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.share),
+              title: const Text('Share with other apps'),
+              onTap: () {
+                Navigator.pop(context);
+                Share.share(
+                  shareText,
+                  subject: book.title ?? 'Check out this book!',
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.copy),
+              title: const Text('Copy to clipboard'),
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: shareText));
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Copied to clipboard')),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _shareViaWhatsApp(String text) async {
+    final url = Uri.parse('https://wa.me/?text=${Uri.encodeComponent(text)}');
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Could not open WhatsApp')));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(book.title ?? 'Book Details'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () => _showShareOptions(context),
+            // _shareBook(context),
+          ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => deleteBook(book.id!),
