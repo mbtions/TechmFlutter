@@ -107,13 +107,15 @@ class BooksHomeScreenState extends State<BooksHomeScreen> {
                       ? filteredBooks[index]
                       : allBooks[index];
                   return InkWell(
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            BookDetailsScreen(bookId: book.id!),
-                      ),
-                    ),
+                    onTap: () =>
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) =>
+                        //         BookDetailsScreen(bookId: book.id!),
+                        //   ),
+                        // ),
+                        Navigator.pushNamed(context, '/books/${book.id}'),
                     child: BookCard(book: book),
                   );
                 },
@@ -122,10 +124,11 @@ class BooksHomeScreenState extends State<BooksHomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddBookScreen()),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const AddBookScreen()),
+          // );
+          Navigator.pushNamed(context, '/addbook');
         },
         tooltip: 'Add Book',
         child: const Icon(Icons.add),

@@ -23,11 +23,11 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    getBookById(widget.bookId);
+    getBook();
   }
 
-  getBookById(int id) async {
-    book = (await BookRemoteServices().getBookById(id))!;
+  Future<void> getBook() async {
+    book = (await BookRemoteServices().getBookById(widget.bookId))!;
     if (book != null) {
       setState(() {
         isLoaded = true;
@@ -35,7 +35,7 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-  deleteBook(int id) async {
+  Future<void> deleteBook(int id) async {
     bool status = await BookRemoteServices().deleteBook(id);
     if (status) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -44,6 +44,8 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
           backgroundColor: Colors.green,
         ),
       );
+      // navigate back to the home screen
+      Navigator.popAndPushNamed(context, "/");
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -54,30 +56,16 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-  void _shareBook(BuildContext context) {
-    final String text =
+  void _showShareOptions(BuildContext context) {
+    final String shareText =
         '''
-        📚 *${book.title ?? 'Unknown Title'}*
+        📚 ${book.title ?? 'Unknown Title'}
         ✍️ Author: ${book.author ?? 'Unknown Author'}
         📖 Genre: ${book.genre ?? 'Unknown'}
         ⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
 
         ${book.desc ?? 'No description provided.'}
-      ''';
-
-    Share.share(text, subject: book.title ?? 'Check out this book!');
-  }
-
-  void _showShareOptions(BuildContext context) {
-    final String shareText =
-        '''
-📚 ${book.title ?? 'Unknown Title'}
-✍️ Author: ${book.author ?? 'Unknown Author'}
-📖 Genre: ${book.genre ?? 'Unknown'}
-⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
-
-${book.desc ?? 'No description provided.'}
-''';
+        ''';
 
     showModalBottomSheet(
       context: context,
@@ -88,14 +76,6 @@ ${book.desc ?? 'No description provided.'}
         padding: const EdgeInsets.all(16.0),
         child: Wrap(
           children: [
-            ListTile(
-              leading: const Icon(Icons.call, color: Colors.green),
-              title: const Text('Share via WhatsApp'),
-              onTap: () {
-                Navigator.pop(context);
-                _shareViaWhatsApp(shareText);
-              },
-            ),
             ListTile(
               leading: const Icon(Icons.share),
               title: const Text('Share with other apps'),
@@ -124,18 +104,6 @@ ${book.desc ?? 'No description provided.'}
     );
   }
 
-  void _shareViaWhatsApp(String text) async {
-    final url = Uri.parse('https://wa.me/?text=${Uri.encodeComponent(text)}');
-
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Could not open WhatsApp')));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -154,9 +122,7 @@ ${book.desc ?? 'No description provided.'}
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          await getBookById(widget.bookId);
-        },
+        onRefresh: getBook,
         child: Visibility(
           visible: isLoaded,
           replacement: Center(child: const CircularProgressIndicator()),
@@ -175,6 +141,7 @@ ${book.desc ?? 'No description provided.'}
                   Text(
                     book.desc ?? 'No description available',
                     style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.justify,
                   ),
                   const SizedBox(height: 16),
 
@@ -201,9 +168,11 @@ ${book.desc ?? 'No description provided.'}
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => EditBookScreen(book: book)),
-        ),
+        onPressed: () =>
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(builder: (context) => EditBookScreen(book: book)),
+            // ),
+            Navigator.pushNamed(context, '/updatebook', arguments: book),
         child: const Icon(Icons.edit),
       ),
     );
@@ -312,33 +281,6 @@ ${book.desc ?? 'No description provided.'}
     );
   }
 
-  // Widget _buildRatingSection(BuildContext context) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       _buildSectionTitle('Rating'),
-  //       Row(
-  //         children: [
-  //           Icon(Icons.star, color: Colors.amber, size: 30),
-  //           const SizedBox(width: 8),
-  //           Text(
-  //             '${book.rating ?? 'N/A'} / 5.0',
-  //             style: Theme.of(context).textTheme.titleLarge,
-  //           ),
-  //         ],
-  //       ),
-  //       const SizedBox(height: 8),
-  //       SizedBox(
-  //         width: double.infinity,
-  //         child: ElevatedButton(
-  //           onPressed: () => _rateBook(context),
-  //           child: const Text('Rate this book'),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _buildAddedBySection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -351,62 +293,4 @@ ${book.desc ?? 'No description provided.'}
       ],
     );
   }
-
-  // void _shareBook(BuildContext context) {
-  //   // Implement share functionality
-  //   ScaffoldMessenger.of(
-  //     context,
-  //   ).showSnackBar(const SnackBar(content: Text('Sharing book...')));
-  // }
-
-  // void _addToFavorites(BuildContext context) {
-  //   // Implement favorite functionality
-  //   ScaffoldMessenger.of(
-  //     context,
-  //   ).showSnackBar(const SnackBar(content: Text('Added to favorites!')));
-  // }
-
-  // void _rateBook(BuildContext context) {
-  //   // Implement rating functionality
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) => AlertDialog(
-  //       title: const Text('Rate this book'),
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           const Text('How would you rate this book?'),
-  //           const SizedBox(height: 16),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: List.generate(5, (index) {
-  //               return Icon(
-  //                 Icons.star,
-  //                 color: index < (book.rating ?? 0)
-  //                     ? Colors.amber
-  //                     : Colors.grey,
-  //                 size: 30,
-  //               );
-  //             }),
-  //           ),
-  //         ],
-  //       ),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () => Navigator.pop(context),
-  //           child: const Text('Cancel'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.pop(context);
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(content: Text('Thanks for rating!')),
-  //             );
-  //           },
-  //           child: const Text('Submit'),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

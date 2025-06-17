@@ -81,7 +81,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
       );
 
       updateBook(updatedBook);
-      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, "/books/${widget.book.id}");
     }
   }
 
