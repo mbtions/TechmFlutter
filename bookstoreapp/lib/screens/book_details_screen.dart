@@ -1,9 +1,7 @@
-import 'package:bookstoreapp/model/book.dart';
-import 'package:bookstoreapp/screens/edit_book_screen.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
-import 'package:flutter/services.dart';
+import 'package:bookstoreapp/model/book.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 // FOR DISPLAYING ONE BOOK AS PER ID (GET REQUEST) WITH DELETE OPTION (DELETE REQUEST)
@@ -27,8 +25,8 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
   }
 
   Future<void> getBook() async {
-    book = (await BookRemoteServices().getBookById(widget.bookId))!;
-    if (book != null) {
+    final retrievedBook = await BookRemoteServices().getBookById(widget.bookId);
+    if (retrievedBook != null) {
       setState(() {
         isLoaded = true;
       });

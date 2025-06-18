@@ -1,10 +1,9 @@
-import 'package:bookstoreapp/model/book.dart';
-import 'package:bookstoreapp/screens/add_book_screen.dart';
-import 'package:bookstoreapp/screens/book_details_screen.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
 import 'package:bookstoreapp/widgets/book_card.dart';
+import 'package:bookstoreapp/model/book.dart';
 import 'package:flutter/material.dart';
 
+// FETCH ALL BOOKS ON HOME SCREEN (GET REQUEST)
 class BooksHomeScreen extends StatefulWidget {
   const BooksHomeScreen({super.key});
 

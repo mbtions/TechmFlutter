@@ -1,6 +1,6 @@
+import 'package:bookstoreapp/services/book_remote_services.dart';
 import 'package:bookstoreapp/model/book.dart';
 import 'package:flutter/material.dart';
-import 'package:bookstoreapp/services/book_remote_services.dart';
 
 // FOR UPDATING THE BOOK (PUT REQUEST)
 class EditBookScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:bookstoreapp/model/book.dart';
 import 'package:bookstoreapp/services/book_remote_services.dart';
+import 'package:bookstoreapp/model/book.dart';
 import 'package:flutter/material.dart';
 
 // FOR ADDING A NEW BOOK (POST REQUEST)
@@ -59,7 +59,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
           ),
         );
       }
-      Navigator.pop(context);
+      // Navigator.pop(context);
+      Navigator.popAndPushNamed(context, '/books');
     }
   }
 
