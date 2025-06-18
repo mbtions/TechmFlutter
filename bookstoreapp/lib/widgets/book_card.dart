@@ -102,7 +102,7 @@ class BookCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Published by $book.publisher',
+                    'Published by ${book.publisher}',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
