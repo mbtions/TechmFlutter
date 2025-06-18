@@ -28,6 +28,7 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
     final retrievedBook = await BookRemoteServices().getBookById(widget.bookId);
     if (retrievedBook != null) {
       setState(() {
+        book = retrievedBook;
         isLoaded = true;
       });
     }
