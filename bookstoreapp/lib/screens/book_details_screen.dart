@@ -58,12 +58,12 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
   void _showShareOptions(BuildContext context) {
     final String shareText =
         '''
-        📚 ${book.title ?? 'Unknown Title'}
-        ✍️ Author: ${book.author ?? 'Unknown Author'}
-        📖 Genre: ${book.genre ?? 'Unknown'}
-        ⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
+📚 ${book.title ?? 'Unknown Title'}
+✍️ Author: ${book.author ?? 'Unknown Author'}
+📖 Genre: ${book.genre ?? 'Unknown'}
+⭐ Rating: ${book.rating?.toString() ?? 'N/A'}
 
-        ${book.desc ?? 'No description provided.'}
+${book.desc ?? 'No description provided.'}
         ''';
 
     showModalBottomSheet(
@@ -112,7 +112,6 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () => _showShareOptions(context),
-            // _shareBook(context),
           ),
           IconButton(
             icon: const Icon(Icons.delete),
@@ -153,10 +152,6 @@ class BookDetailsScreenState extends State<BookDetailsScreen> {
                   _buildDetailRow('Language', book.language),
                   _buildDetailRow('Genre', book.genre),
                   const SizedBox(height: 16),
-
-                  // Rating section
-                  // _buildRatingSection(context),
-                  const SizedBox(height: 24),
 
                   // Added by section
                   _buildAddedBySection(),
