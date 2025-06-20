@@ -21,54 +21,60 @@ samples, guidance on mobile development, and a full API reference.
 
 #### All Books: Books Home Screen (getAllBooks)
 
-![alt text](all_books.jpg)
+<img src="all_books.jpg" height=500>
 
 ### Add New Book Page (addBook)
 
-![alt text](add_book_page.jpg)  
-![alt text](add_new_book_page.jpg)
+<img src="add_book_page.jpg" height=500>
+
+<img src="add_new_book_page.jpg" height=500>
 
 ### View Book: Book Details Screen (getBookById)
 
-![alt text](view_book_1.jpg)  
-![alt text](view_book_2.jpg)
+<img src="view_book_1.jpg" height=500>
+  
+<img src="view_book_2.jpg" height=500>
 
 ### Update Book: Book Update/Edit Page (updateBook)
 
-![alt text](update_book_page.jpg)  
-![alt text](update_book_page_2.jpg)
+<img src="update_book_page.jpg" height=500>
+
+<img src="update_book_page_2.jpg" height=500>
 
 ### Share Book Options
 
-![alt text](share_options.jpg)
+<img src="share_options.jpg" height=500>
 
 ### Adding New Book
 
-![alt text](add_book_1.jpg)
-![alt text](add_new_book_2.jpg)
+<img src="add_book_1.jpg" height=500>
+
+<img src="add_new_book_2.jpg" height=500>
 
 ### Success Response
 
-![alt text](book_added_success.jpg)
+<img src="book_added_success.jpg" height=500>
 
 ### All Books Fetched and Shown on Home Screen
 
-![alt text](book_added_and_shown.jpg)
+<img src="book_added_and_shown.jpg" height=500>
 
 ### View Newly Added Book
 
-![alt text](added_book_details.jpg)
+<img src="added_book_details.jpg" height=500>
 
 ### Update Details
 
-![alt text](update_book_1.jpg)  
- ![alt text](update_book_2.jpg)
+<img src="update_book_1.jpg" height=500>
+
+<img src="update_book_2.jpg" height=500>
 
 ### Update Success Response
 
-![alt text](book_updated_success.jpg)
+<img src="book_updated_success.jpg" height=500>
 
 ### Share Via Other Apps (WhatsApp) or Copy to Clipboard
 
-![alt text](share_book_options.jpg)
-![alt text](shared_via_whatsapp.jpg)
+<img src="share_book_options.jpg" height=500>
+
+<img src="shared_via_whatsapp.jpg" height=500>
